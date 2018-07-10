@@ -14,6 +14,9 @@ import re
 plotly.tools.set_credentials_file(username='valentin.lefranc', api_key='Xb0HU4LGnX8h3COhUgJr')
 
 path_g = "/home/valentin/Documents/Bernis"
+### Sur le serveur
+#path_g = "/home/seed/Projet_POC_GTM"
+
 path_data = path_g + "/Donnees/"
 path_prog = path_g + "/programmes/"
 

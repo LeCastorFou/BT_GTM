@@ -14,18 +14,13 @@ from random import *
 import math
 plotly.tools.set_credentials_file(username='valent1lefranc', api_key='FVS2QilGqDjF90sYktkX')
 
-#path_g = "C:/Users/Lefranc/Documents/Dossier_Client_Temporaire/BernisInvestissement2017-6BT-GTM/"
-#path_data = path_g + "donnees/"
-#path_prog = path_g + "programmes/"
+path_g = "/home/valentin/Documents/Bernis"
+### Sur le serveur
+#path_g = "/home/seed/Projet_POC_GTM"
 
-#path_os = "S:\\"
-#path_win = "Q:/"
-path_g = '/Volumes/Commun/ProjetsClients/BernisInvestissement/BernisInvestissement2017-6BT-GTM/'
+path_data = path_g + "/Donnees/"
+path_prog = path_g + "/programmes/"
 
-#path_g = "ProjetsClients/BernisInvestissement/BernisInvestissement2017-6BT-GTM/"
-#path_g = path_os
-path_data = path_g + "donnees/"
-path_prog = path_g + "programmes/"
 
 exec(open(path_prog+'Helper.py').read())
 
@@ -75,7 +70,7 @@ P_Veh['Temps_max'] = P_Veh.groupby('VIN')['cumsum'].transform(pd.Series.max)
 P_Veh = P_Veh[P_Veh['KM_max'] > 100000]
 P_Veh = P_Veh[P_Veh['KM_min'] < 50000]
 P_Veh = P_Veh[P_Veh['Temps_max'] < 400]
-P_Veh = P_Veh[P_Veh['MontantHT'] > 0]
+#P_Veh = P_Veh[P_Veh['MontantHT'] > 0]
 
 len(np.unique(P_Veh['VIN']))
 
@@ -168,8 +163,8 @@ py.iplot(data)
 
 
 ######### TEST sur un vehicule ################
-H_opti = smooth(Medians_H,6)
-H_opti[0] = Medians_H[0]
+#H_opti = smooth(Medians_H,6)
+#H_opti[0] = Medians_H[0]
 
 #VIN_TEST = np.unique(Veh_IN_GTM['VIN'])[randint(1, len(np.unique(Veh_IN_GTM['VIN']))) ]
 
@@ -177,7 +172,7 @@ TimeToAdd = []
 VIN_LIST = []
 for VIN_TEST in np.unique(Veh_IN_GTM['VIN']):
     Sub_Veh = Veh_IN_GTM[Veh_IN_GTM['VIN'] == VIN_TEST]
-    Sub_Veh = Sub_Veh[Sub_Veh['Compteur']<1000000]
+    Sub_Veh = Sub_Veh[Sub_Veh['Compteur']<Nmax*10000]
     if math.isnan(np.max(Sub_Veh['Compteur'])):
         Tps_rest = 0
     else:
@@ -191,24 +186,23 @@ for VIN_TEST in np.unique(Veh_IN_GTM['VIN']):
         TimeToAdd.append(Tps_rest)
         VIN_LIST.append(VIN_TEST)
 
-sum(TimeToAdd)
-np.mean(TimeToAdd)
+VIN_LIST = pd.DataFrame(VIN_LIST)
+VIN_LIST['heures'] = TimeToAdd
+#sum(TimeToAdd)
+#np.mean(TimeToAdd)
 
 ##############################
-for VIN_TEST in np.unique(Veh_IN_GTM['VIN']):
-    Sub_Veh = Veh_IN_GTM[Veh_IN_GTM['VIN'] == VIN_TEST]
-    Sub_Veh = Sub_Veh[Sub_Veh['Compteur']<1000000]
-    print(VIN_TEST)
-    kmin = math.floor(np.max(Sub_Veh['Compteur'])/10000)
-    kmax = math.ceil(np.max(Sub_Veh['Compteur'])/10000)
-    print(str(kmin) + " " + str(kmax))
+#for VIN_TEST in np.unique(Veh_IN_GTM['VIN']):
+#    Sub_Veh = Veh_IN_GTM[Veh_IN_GTM['VIN'] == VIN_TEST]
+#    Sub_Veh = Sub_Veh[Sub_Veh['Compteur']<1000000]
+#    print(VIN_TEST)
+#    kmin = math.floor(np.max(Sub_Veh['Compteur'])/10000)
+#    kmax = math.ceil(np.max(Sub_Veh['Compteur'])/10000)
+#    print(str(kmin) + " " + str(kmax))
 
 
-Sub_Veh = Veh_IN_GTM[Veh_IN_GTM['VIN'] == 'VF611GTA000121151']
-Sub_Veh = Sub_Veh[Sub_Veh['Compteur']<1000000]
-math.isnan(np.max(Sub_Veh['Compteur']))
-
-
-
+#Sub_Veh = Veh_IN_GTM[Veh_IN_GTM['VIN'] == 'VF611GTA000121151']
+#Sub_Veh = Sub_Veh[Sub_Veh['Compteur']<1000000]
+#math.isnan(np.max(Sub_Veh['Compteur']))
 
 #sns.pairplot(x_vars=["Compteur"], y_vars=["cumsum"], data=Veh_test, hue="VIN", size=5)

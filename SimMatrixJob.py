@@ -16,6 +16,9 @@ from nltk.metrics import *
 
 
 path_g = "/home/valentin/Documents/Bernis"
+### Sur le serveur
+#path_g = "/home/seed/Projet_POC_GTM"
+
 path_data = path_g + "/Donnees/"
 path_prog = path_g + "/programmes/"
 

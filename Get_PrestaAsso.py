@@ -14,6 +14,9 @@ import re
 plotly.tools.set_credentials_file(username='valentin.lefranc', api_key='Xb0HU4LGnX8h3COhUgJr')
 
 path_g = "/home/valentin/Documents/Bernis"
+### Sur le serveur
+#path_g = "/home/seed/Projet_POC_GTM"
+
 path_data = path_g + "/Donnees/"
 path_prog = path_g + "/programmes/"
 
@@ -94,7 +97,7 @@ for i in range(0,len(ActGTM)):
         #### On definit la distance minimale de similarite
         DistSim = 0.9
         ##################################################
-        
+
         print('creation de la matrice')
         for k in range(0,len(Des_Len2)):
             Sim = [text_cosine(Des_Len2[k],w) for w in Des_Len2]
