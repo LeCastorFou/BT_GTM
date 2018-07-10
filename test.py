@@ -30,15 +30,16 @@ ActGTM = [ str(w) for w in ActGTM]
 ActGTM = list(set(ActGTM))
 
 
-i = ActGTM.index("VIDANGE MOTEUR")
-
-
+ActGTM
+i = ActGTM.index("JOINT DE PORTE")
+i
 
 Veh_VM = Veh[Veh[ActGTM[i]] > 0.7]
 print('Liste OR associees')
 Veh_VM_OR = Veh_VM['NoOR']
 Veh_VM_Des = Veh[Veh['NoOR'].isin(Veh_VM_OR)]
 Veh_VM_Des = Veh_VM_Des[Veh_VM_Des[ActGTM[i]] < 0.7]
+len(Veh_VM_Des)
 
 # On cherche les longueurs des chaine de characteres et on enleve les trop courtes ##
 print("On enleve les chaines de char trop courtes")
@@ -64,6 +65,7 @@ Des_Len2['Des_Len'] = Des_Len2.index
 Des_Len2.columns = np.array(['no','Des_Len'])
 Des_Len2 = Des_Len2.sort_values(by =['no'], ascending=False)
 Des_Len2.columns
+Des_Len2
 
 #Pour eviter les erreurs de memoire
 if len(Des_Len2) > 10000:
@@ -108,6 +110,9 @@ Sim_Matrix.index = np.delete(Des_Len2,list_to_drop)
 Sim_Matrix.columns = np.delete(Des_Len2,list_to_drop)
 
 
+Sim_Matrix
+
+
 Switch_init = np.array([])
 Switch_tc = np.array([])
 avoid = np.array([])
@@ -122,6 +127,9 @@ for k in range(0,len(Sim_Matrix)):
             print(Sim_Matrix.index[k], '//////' ,Sim_Matrix.index[j] )
 ###############################################################################
 
+Switch_tc
+
+
 #### Tableau de correspondance
 print('tableau de correspondance')
 Switch_tc = pd.DataFrame(Switch_tc)
@@ -134,11 +142,13 @@ rm = np.array([])
 for k in range(0,len(Switch_tc)):
     if np.isin(Switch_tc['tc'][k],Switch_tc['init'][0:k]):
         rm = np.append(rm,k)
+rm
 
 ####### On enleve les doubles correspondance
 print('on enleve les doubles')
 Sw2 = Sw2.drop(rm)
 Sw2 = Sw2.drop_duplicates(subset=['tc'], keep="first")
+Sw2
 #### On remplace dans le array des Designations ########
 Des_Len_temp = np.array(Des_Len['Des_VM'])
 
@@ -156,7 +166,7 @@ res = pd.DataFrame()
 res['unique_elements'] = unique_elements
 res['counts_elements'] = counts_elements
 res = res.sort_values(by =['counts_elements'], ascending=False)
-print(res.head(25))
+print(res.head(100))
 titre = ActGTM[i]
 res['ActGTM'] = titre
 res.columns = np.array([titre,'counts','ActGTM'])

@@ -5,10 +5,10 @@ from datetime import datetime
 import nltk
 from nltk.corpus import stopwords
 import re
-from string import punctuation
+#from string import punctuation
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
-from string import punctuation
+#from string import punctuation
 from nltk.stem.lancaster import LancasterStemmer
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
@@ -66,34 +66,34 @@ Veh['Designation'] = Veh['Designation'].str.upper()
 
 ################## TEST ###################
 
-len(Veh)
-action_unique = pd.unique(Veh['Designation'])
+#len(Veh)
+#action_unique = pd.unique(Veh['Designation'])
 
-stopwordsFrench = list(map(str.upper,set(stopwords.words('french')))) + list(punctuation)
-stopwordsFrench.append('A')
-stopwordsFrench.append('m')
-stopwordsFrench.append('K')
-st = LancasterStemmer()
+#stopwordsFrench = list(map(str.upper,set(stopwords.words('french')))) + list(punctuation)
+#stopwordsFrench.append('A')
+#stopwordsFrench.append('m')
+#stopwordsFrench.append('K')
+#st = LancasterStemmer()
 
-lst_action_seed = []
-for action in action_unique :
-    if pd.isnull(action) != True:
-        action = action.replace('.', ' ')
-        action = action.replace('/', ' ')
-        action = action.replace('+', ' ')
-        word_action = word_tokenize(action)
-        stem_word_action =[words.replace(words,(st.stem(words)).upper()) for words in word_action]
+#lst_action_seed = []
+#for action in action_unique :
+#    if pd.isnull(action) != True:
+#        action = action.replace('.', ' ')
+#        action = action.replace('/', ' ')
+#        action = action.replace('+', ' ')
+#        word_action = word_tokenize(action)
+#        stem_word_action =[words.replace(words,(st.stem(words)).upper()) for words in word_action]
         # je filtre les rows qui conduise à du vide
-        if (' ').join(stem_word_action) == '':
-            df_tempo = Veh[Veh['Designation'] != action]
-        else :
-            lst_action_seed.append((' ').join(stem_word_action))
+#        if (' ').join(stem_word_action) == '':
+#            df_tempo = Veh[Veh['Designation'] != action]
+#        else :
+#            lst_action_seed.append((' ').join(stem_word_action))
 
-len(df_tempo)
-len(lst_action_seed)
-len(action_unique)
-action_unique = pd.DataFrame(action_unique)
-action_unique['corres'] = lst_action_seed
+#len(df_tempo)
+#len(lst_action_seed)
+#len(action_unique)
+#action_unique = pd.DataFrame(action_unique)
+#action_unique['corres'] = lst_action_seed
 
 ######### Liste des actions de maintenance #########
 ActGTM = list(GTM['DesignationAction'])

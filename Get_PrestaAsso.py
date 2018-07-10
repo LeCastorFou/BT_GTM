@@ -91,11 +91,15 @@ for i in range(0,len(ActGTM)):
 
         list_to_drop =  []
 
+        #### On definit la distance minimale de similarite
+        DistSim = 0.9
+        ##################################################
+        
         print('creation de la matrice')
         for k in range(0,len(Des_Len2)):
             Sim = [text_cosine(Des_Len2[k],w) for w in Des_Len2]
             Sim = np.array(Sim)
-            taille = np.where(np.logical_and(Sim>=0.9, Sim<1))
+            taille = np.where(np.logical_and(Sim>=DistSim, Sim<1))
             #print(str(k) + "   " + str(taille[0]))
             if len(taille[0]) == 0:
                 list_to_drop.extend([k])
@@ -123,7 +127,7 @@ for i in range(0,len(ActGTM)):
         print("tableau de switch")
         for k in range(0,len(Sim_Matrix)):
             for j in jmax-1:
-                if Sim_Matrix.iloc[k][j] > 0.9 and k !=j :
+                if Sim_Matrix.iloc[k][j] > DistSim and k !=j :
                     Switch_tc = np.append(Switch_tc,Sim_Matrix.columns[j])
                     Switch_init = np.append(Switch_init,Sim_Matrix.index[k])
                     avoid = np.append(avoid,j)
