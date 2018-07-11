@@ -67,36 +67,6 @@ Veh = Veh[ [bool(re.search('[a-zA-Z]',l)) for l in Veh["Designation"]] ]
 Veh['Designation'] = Veh['Designation'].astype(str)
 Veh['Designation'] = Veh['Designation'].str.upper()
 
-################## TEST ###################
-
-#len(Veh)
-#action_unique = pd.unique(Veh['Designation'])
-
-#stopwordsFrench = list(map(str.upper,set(stopwords.words('french')))) + list(punctuation)
-#stopwordsFrench.append('A')
-#stopwordsFrench.append('m')
-#stopwordsFrench.append('K')
-#st = LancasterStemmer()
-
-#lst_action_seed = []
-#for action in action_unique :
-#    if pd.isnull(action) != True:
-#        action = action.replace('.', ' ')
-#        action = action.replace('/', ' ')
-#        action = action.replace('+', ' ')
-#        word_action = word_tokenize(action)
-#        stem_word_action =[words.replace(words,(st.stem(words)).upper()) for words in word_action]
-        # je filtre les rows qui conduise à du vide
-#        if (' ').join(stem_word_action) == '':
-#            df_tempo = Veh[Veh['Designation'] != action]
-#        else :
-#            lst_action_seed.append((' ').join(stem_word_action))
-
-#len(df_tempo)
-#len(lst_action_seed)
-#len(action_unique)
-#action_unique = pd.DataFrame(action_unique)
-#action_unique['corres'] = lst_action_seed
 
 ######### Liste des actions de maintenance #########
 ActGTM = list(GTM['DesignationAction'])
@@ -112,19 +82,20 @@ ActGTM = ActGTM[ActGTM != "nan"]
 Des = list(Veh['Designation'])
 Des = [str(w) for w in Des]
 
-
-
 #### Matrice pour stocker les résultats
 S = (np.size(ActGTM),len(Des))
 Sim_Matrix = np.zeros(S)
 
-
+############################################################################
 for i in range(0,len(ActGTM)):
     print(i,'   ',ActGTM[i])
     Sim_Matrix[i] = [text_cosine(ActGTM[i],w) for w in Des]
+# Pour chaque ActGTM on calcul ça distance au 6000000 Des qui sont les ticket de caisse
 
+## On cree une nouvelle colonne dans le fichier original pour avoir la distance a chaque ActGTM #########
 for i in range(0,len(ActGTM)):
     Veh[ActGTM[i]] = Sim_Matrix[i]
+##########################################################################################################
 
-
+## Enregistrement #######################""
 Veh.to_pickle(path_data + 'VehSimMatrix.pkl')

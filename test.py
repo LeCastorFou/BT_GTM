@@ -29,9 +29,9 @@ ActGTM = Veh.columns[24:]
 ActGTM = [ str(w) for w in ActGTM]
 ActGTM = list(set(ActGTM))
 
-
 ActGTM
-i = ActGTM.index("JOINT DE PORTE")
+
+i = ActGTM.index("VGP LEVAGE")
 i
 
 Veh_VM = Veh[Veh[ActGTM[i]] > 0.7]
@@ -170,4 +170,5 @@ print(res.head(100))
 titre = ActGTM[i]
 res['ActGTM'] = titre
 res.columns = np.array([titre,'counts','ActGTM'])
-res
+len(res)
+res.append(res)

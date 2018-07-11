@@ -9,3 +9,4 @@ Presta = pd.read_pickle(path_data + 'Presta_Asso.pkl')
 Presta
 len(Presta)
 len(np.unique(Presta.ActGTM))
+Presta.to_csv(path_data + 'Presta_Asso.csv')

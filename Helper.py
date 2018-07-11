@@ -19,6 +19,11 @@ def LD(s, t):
     res = min([LD(s[:-1], t)+1,LD(s, t[:-1])+1,LD(s[:-1], t[:-1]) + cost])
     return res
 
+def smooth(y, box_pts):
+    box = np.ones(box_pts)/box_pts
+    y_smooth = np.convolve(y, box, mode='same')
+    return y_smooth
+
 
 def LDsim(s,t):
     LevenSim = 1 - LD(s,t)/(max(len(s),len(t)))
