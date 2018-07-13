@@ -29,8 +29,6 @@ Veh = pd.read_csv(path_data + "Vehicules-HistoriqueSeed_T.csv",sep=';',decimal=b
 #df_seed = pd.read_csv('Vehicules - Historique Seed.csv',delimiter ='\t',encoding ='UTF-16LE')
 
 
-
-
 Veh['VIN'] = Veh['VIN'].astype(str)
 GTM['VIN'] = GTM['VIN'].astype(str)
 
@@ -81,6 +79,11 @@ ActGTM = ActGTM[ActGTM != "nan"]
 
 Des = list(Veh['Designation'])
 Des = [str(w) for w in Des]
+## On enleve les characteres à la c**
+Des = [s.replace(',', ' ') for s in Des]
+Des = [s.replace('\n', ' ') for s in Des]
+Des = [s.replace('\r', ' ') for s in Des]
+Des = [s.replace('\s+', ' ') for s in Des]
 
 #### Matrice pour stocker les résultats
 S = (np.size(ActGTM),len(Des))

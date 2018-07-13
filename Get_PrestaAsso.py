@@ -169,4 +169,13 @@ for i in range(0,len(ActGTM)):
 
 
 res_tot.to_pickle(path_data + 'Presta_Asso.pkl')
+
+L = res_tot['Action']
+L = list(L)
+L = [s.replace(',', ' ') for s in L]
+L = [s.replace('\n', ' ') for s in L]
+L = [s.replace('\r', ' ') for s in L]
+L = [s.replace('\s+', ' ') for s in L]
+res_tot['Action'] = L
+res_tot = res_tot[res_tot['counts'] >2]
 res_tot.to_csv(path_data + 'Presta_Asso.csv')

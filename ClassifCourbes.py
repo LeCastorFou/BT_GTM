@@ -100,6 +100,8 @@ for i in range(0,Nmax):
     P3_H.append(np.percentile(P_Veh_sub['SUM'], 75))
     #print(Means[i])
 
+
+
 len(lenG_H)
 
 #Means
@@ -149,6 +151,13 @@ for i in range(0,Nmax):
 H_opti = smooth(Medians_H,6) # On smooth la courbe des median mais on laisse la premiere valeur a l'originelle
 H_opti[0] = Medians_H[0]
 
+H_median = pd.DataFrame(H_opti)
+H_median['km'] = np.linspace(0,(Nmax-1)*10000,Nmax)
+H_median.columns = np.array(['H','km'])
+H_median['cumsum'] = np.cumsum(H_median.H)
+H_median.to_csv(path_data + 'H_median.csv')
+
+
 ## Pour chaque VIN on calcul en fct de son km le nombre d'heures potentiel à lui facturer
 TimeToAdd = []
 VIN_LIST = []
@@ -171,3 +180,59 @@ for VIN_TEST in np.unique(Veh['VIN']):
 VIN_LIST = pd.DataFrame(VIN_LIST)
 VIN_LIST['heures'] = TimeToAdd
 VIN_LIST.to_csv(path_data + 'TimeToVIN.csv')
+#############################################
+
+Veh = Veh.sort_values(by =['VIN','Compteur'])
+Veh['cumsum'] = Veh.groupby('VIN')['Temps'].transform(pd.Series.cumsum)
+Veh = Veh[ [l.startswith("VF") for l in Veh["VIN"]] ]
+
+Veh_red = Veh[['VIN','Compteur','cumsum','Designation']]
+Veh_red['VIN'] = Veh_red['VIN'].astype(str)
+L = Veh_red['Designation']
+L = list(L)
+L
+L = [str(s).replace(',', ' ') for s in L]
+L = [s.replace('\n', ' ') for s in L]
+L = [s.replace('\r', ' ') for s in L]
+L = [s.replace('\s+', ' ') for s in L]
+Veh_red['Designation'] = L
+
+L = [str(w) for w in L]
+Len_L = [len(w) for w in L]
+Des_Len = np.array(Len_L)
+Des_Len = pd.DataFrame(Des_Len)
+Des_Len.columns = np.array(["Len"])
+Des_Len['L'] = L
+len(Des_Len)
+len(Veh_red)
+TF = list(Des_Len['Len'] < 100)
+Veh_red = Veh_red[TF]
+
+Veh_red.to_csv(path_data + 'Veh_red.csv')
+
+Veh_IN_GTM = Veh_IN_GTM.sort_values(by =['VIN','Compteur'])
+Veh_IN_GTM['Temps'] = np.nan_to_num(Veh_IN_GTM['Temps'])
+Veh_IN_GTM['cumsum'] = Veh_IN_GTM.groupby('VIN')['Temps'].transform(pd.Series.cumsum)
+Veh_red = Veh_IN_GTM[['VIN','Compteur','Temps','cumsum','Designation']]
+Veh_red['VIN'] = Veh_red['VIN'].astype(str)
+L = Veh_red['Designation']
+L = list(L)
+L = [str(s).replace(',', ' ') for s in L]
+L = [s.replace('\n', ' ') for s in L]
+L = [s.replace('\r', ' ') for s in L]
+L = [s.replace('\s+', ' ') for s in L]
+
+Veh_red['Designation'] = L
+
+L = [str(w) for w in L]
+Len_L = [len(w) for w in L]
+Des_Len = np.array(Len_L)
+Des_Len = pd.DataFrame(Des_Len)
+Des_Len.columns = np.array(["Len"])
+Des_Len['L'] = L
+len(Des_Len)
+len(Veh_red)
+TF = list(Des_Len['Len'] < 100)
+Veh_red = Veh_red[TF]
+
+Veh_red.to_csv(path_data + 'Veh_IN_GTM_red.csv')
